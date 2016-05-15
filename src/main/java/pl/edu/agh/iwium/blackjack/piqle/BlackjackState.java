@@ -1,12 +1,17 @@
 package pl.edu.agh.iwium.blackjack.piqle;
 
+import static pl.edu.agh.iwium.blackjack.BlackjackGameProperties.DEALERS_CARDS;
+import static pl.edu.agh.iwium.blackjack.BlackjackGameProperties.RANDOMIZE_DEALERS_CARDS;
+
 import org.apache.log4j.Logger;
 
 import environment.AbstractTwoPlayerState;
 import environment.IEnvironment;
+import pl.edu.agh.iwium.Utils;
 import pl.edu.agh.iwium.blackjack.BlackjackActionEnum;
 import pl.edu.agh.iwium.blackjack.BlackjackHand;
 import pl.edu.agh.iwium.game.DealersCards;
+
 
 public class BlackjackState extends AbstractTwoPlayerState {
 	private static final long serialVersionUID = 1L;
@@ -17,10 +22,8 @@ public class BlackjackState extends AbstractTwoPlayerState {
 	
 	public BlackjackState(IEnvironment ct) {
 		super(ct);
-	}
-
-	public void init(DealersCards dealersCards) {
-		this.dealersCards = dealersCards;
+		
+		this.dealersCards = getNewDeck();
 		this.player1Hand = new BlackjackHand();
 		this.player2Hand = new BlackjackHand();
 		this.player1Hand.addCard(dealersCards.dealCard());
@@ -29,7 +32,6 @@ public class BlackjackState extends AbstractTwoPlayerState {
 		this.player2Hand.addCard(dealersCards.dealCard());
 	}
 	
-	//TODO
 	public void apply(BlackjackAction action) {
 		if ( action.getAction().equals(BlackjackActionEnum.STAND) )
 			getCurrentPlayerHand().stand();
@@ -97,7 +99,9 @@ public class BlackjackState extends AbstractTwoPlayerState {
 	public int getCurrentPlayerPoints(){
 		return getCurrentPlayerHand().evaluateHand();
 	}
-
+	private DealersCards getNewDeck(){
+		return RANDOMIZE_DEALERS_CARDS ? Utils.createDealersCards(1) : DEALERS_CARDS;
+	}
 
 	@Override
 	public String toString() {

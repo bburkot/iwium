@@ -11,24 +11,26 @@ package pl.edu.agh.iwium.game;
  */
 public class Card {
 
-	private Suit suitValue;
-	private Rank rankValue;
+	private Suit suit;
+	private Rank rank;
 
 
 	public Card(Suit suit, Rank rank) {
-		suitValue = suit;
-		rankValue = rank;
+		this.suit = suit;
+		this.rank = rank;
 	}
 
 	public Suit getSuit() {
-		return suitValue;
+		return suit;
 	}
-
 	public Rank getRank() {
-		return rankValue;
+		return rank;
 	}
 	public String toString() {
-		return rankValue.toString() + " of " + suitValue.toString();
+		return rank.toString() + " of " + suit.toString();
+	}
+	public Integer getRankOrdinal() {
+		return rank.ordinal();
 	}
 
 
@@ -42,10 +44,35 @@ public class Card {
 	 *         values, <code>false</code> if they do not.
 	 */
 	public boolean isSameAs(Card card) {
-		if ((rankValue != card.rankValue) || (suitValue != card.suitValue))
+		if ((rank != card.rank) || (suit != card.suit))
 			return false;
 		else
 			return true;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((rank == null) ? 0 : rank.hashCode());
+		result = prime * result + ((suit == null) ? 0 : suit.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Card other = (Card) obj;
+		if (rank != other.rank)
+			return false;
+		if (suit != other.suit)
+			return false;
+		return true;
 	}
 
 }

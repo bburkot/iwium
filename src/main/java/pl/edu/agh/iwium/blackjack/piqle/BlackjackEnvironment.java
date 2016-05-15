@@ -1,17 +1,13 @@
 package pl.edu.agh.iwium.blackjack.piqle;
 
+import org.apache.log4j.Logger;
+
 import environment.ActionList;
 import environment.IAction;
 import environment.IEnvironmentTwoPlayers;
 import environment.IState;
 import environment.ITwoPlayerState;
-import pl.edu.agh.iwium.Utils;
 import pl.edu.agh.iwium.blackjack.BlackjackActionEnum;
-import pl.edu.agh.iwium.game.DealersCards;
-
-import static pl.edu.agh.iwium.blackjack.piqle.BlackjackGameProperties.*;
-
-import org.apache.log4j.Logger;
 
 public class BlackjackEnvironment implements IEnvironmentTwoPlayers {
 	private static final long serialVersionUID = 1L;	
@@ -68,17 +64,7 @@ public class BlackjackEnvironment implements IEnvironmentTwoPlayers {
 
 	@Override
 	public ITwoPlayerState defaultInitialTwoPlayerState() {
-		BlackjackState bs = new BlackjackState(this);
-		
-		DealersCards cards;
-		if ( RANDOMIZE_DEALERS_CARDS ){
-			cards = Utils.createDealersCards(NUMBER_OF_DECKS);
-		} else {
-			DEALERS_CARDS.restore();
-			cards = DEALERS_CARDS;
-		}
-		bs.init(cards);
-		return bs;
+		return new BlackjackState(this);
 	}
 
 }

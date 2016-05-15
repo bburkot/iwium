@@ -8,3 +8,8 @@
 
 **statystyki** https://en.wikipedia.org/wiki/Blackjack#Rule_variations_and_their_consequences_for_the_house_edge
 
+
+#### Texasholdem 
+
+** oparte na** https://github.com/phstc/javapokertexasholdem
+
