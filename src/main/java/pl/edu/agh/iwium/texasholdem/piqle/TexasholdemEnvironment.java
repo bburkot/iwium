@@ -41,10 +41,12 @@ public class TexasholdemEnvironment implements IEnvironmentTwoPlayers {
 		newState.toggleTurn();
 		
 		if ( newState.isSubgameEnded() ){
-			logger.debug("Subgame Is Ended -> " + newState + "\n");
 			newState.sumUpSubgame();
-			if ( !newState.isFinal() )
+			if ( !newState.isFinal() ){
 				newState.startNewGame();
+				newState.toggleTurn();
+			}
+			logger.debug("Subgame Is Ended -> " + newState);
 		} 
 			
 		return newState;
@@ -72,16 +74,16 @@ public class TexasholdemEnvironment implements IEnvironmentTwoPlayers {
 	@Override
 	public boolean isFinal(IState s) {		
 		TexasholdemState state = (TexasholdemState) s;
-		return state.getPlayer(0).money < 0 || state.getPlayer(1).money < 0;
+		return state.getPlayer(0).isLoser() || state.getPlayer(1).isLoser();
 	}
 	
 	@Override
 	public int whoWins(IState s) {
 		TexasholdemState state = (TexasholdemState) s;
-		if (state.getPlayer(0).money < 0)
+		if (state.getPlayer(0).isLoser())
 			return 1;
-		if (state.getPlayer(0).money < 0)
-			return 1;
+		if (state.getPlayer(1).isLoser())
+			return -1;
 		return 0;
 	}
 	

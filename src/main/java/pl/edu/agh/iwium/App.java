@@ -61,7 +61,7 @@ public class App {
 //				resu = new int[3];
 //			}
 //		}
-//		for (int i = 1; i < 10; i++) {
+		for (int i = 1; i < 100; i++) {
 			epsilon *= 0.99999;
 			qlearning1.setEpsilon(epsilon);
 			qlearning2.setEpsilon(epsilon);
@@ -69,7 +69,7 @@ public class App {
 			resu[arbitre.episode() + 1]++;
 			System.out.println(resu[0] + " " + resu[1] + " " + resu[2]);
 			resu = new int[3];
-//		}
+		}
 	}
 	
 	private static void blackjack() {

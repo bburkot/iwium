@@ -35,7 +35,6 @@ public class TexasholdemState extends AbstractTwoPlayerState {
 	}
 	
 	public void startNewGame(){
-		turn = false;
 		game.startNewGame( newDeck() );
 		for (int pidx=0; pidx<NUMER_OF_PLAYERS; ++pidx)
 			players[pidx].blind();		
@@ -89,6 +88,7 @@ public class TexasholdemState extends AbstractTwoPlayerState {
 		
 		
 	}
+	
 	
 	public TexasholdemPlayerState getPlayer(int idx) {
 		return players[idx];

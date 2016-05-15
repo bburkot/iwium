@@ -48,7 +48,7 @@ public class TexasholdemPlayerState {
 		
 		updateRankingPoints();
 		
-		this.game.onBoardMoney += BLIND.getCost();
+		game.onBoardMoney += BLIND.getCost();
 	}
 	
 	public void updateRankingPoints() {
@@ -86,6 +86,9 @@ public class TexasholdemPlayerState {
 	}
 	public double getPoints() {
 		return points;
+	}
+	public boolean isLoser(){
+		return money <= 0;
 	}
 	
 	
