@@ -42,10 +42,10 @@ public class BlackjackEnvironment implements IEnvironmentTwoPlayers {
 		// 100 win, 0 tie, - 100 lose
 		if ( isFinal(state) ){
 			if ( state.isTie() )
-				return 0.0;
+				return 50.0;
 			if ( state.isPlayerOneTurn() )
-				return state.isPlayerOneWinner() ? 100.0 : -100.0;
-			return state.isPlayerTwoWinner() ? 100.0 : -100.0;
+				return state.isPlayerOneWinner() ? 100.0 : -50.0;
+			return state.isPlayerTwoWinner() ? 100.0 : -50.0;
 		}
 		
 		// diff * 10

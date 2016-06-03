@@ -3,6 +3,7 @@ package pl.edu.agh.iwium;
 import agents.TwoPlayerAgent;
 import algorithms.ISelector;
 import algorithms.QLearningSelector;
+import algorithms.RandomSelector;
 import pl.edu.agh.iwium.blackjack.bot.Bots;
 import pl.edu.agh.iwium.blackjack.piqle.BlackjackEnvironment;
 import pl.edu.agh.iwium.texasholdem.piqle.TexasholdemEnvironment;
@@ -10,29 +11,26 @@ import referees.TwoPlayerReferee;
 
 import java.util.Optional;
 
-/**
- * Hello world!
- *
- */
 @SuppressWarnings("unused")
 public class App {
 
 	public static void main(String[] args) {
-        blackjackFindOptimalParams(100, 5, Bots.RANDOM);
-        blackjack(Optional.of(0.99), Optional.of(0.99), Optional.of(0.89), Bots.RANDOM);
+//        blackjackFindOptimalParams(200, 10, Bots.DEALER_STRATEGY);
+        blackjack(Optional.of(0.3), Optional.of(0.7), Optional.of(0.8), Bots.RANDOM);
 	}
 
 	private static void texasholdem() {
 		TexasholdemEnvironment env = new TexasholdemEnvironment();
 
 		QLearningSelector qlearning1 = new QLearningSelector();
-		QLearningSelector qlearning2 = new QLearningSelector();
+		ISelector qlearning2 = new RandomSelector();
 
-		double epsilon = 0.3;
+		double epsilon = 0.9;
 		qlearning1.setEpsilon(epsilon);
+        qlearning1.setAlpha(0.7);
 		qlearning1.setGeometricAlphaDecay();
-		qlearning2.setEpsilon(epsilon);
-		qlearning2.setGeometricAlphaDecay();
+        qlearning1.setGamma(9.0);
+
 
 		TwoPlayerAgent p1 = new TwoPlayerAgent(env, qlearning1);
 		TwoPlayerAgent p2 = new TwoPlayerAgent(env, qlearning2);
@@ -43,26 +41,24 @@ public class App {
 		// arbitre.setVerbosity();
 		int resu[] = new int[3];
 
-//		for (int i = 1; i < 10000; i++) {
-//			epsilon *= 0.99999;
-//			qlearning1.setEpsilon(epsilon);
-//			qlearning2.setEpsilon(epsilon);
-//
-//			resu[arbitre.episode() + 1]++;
-//			if (i % 100 == 0) {
-//				System.out.println(i + " " + resu[0] + " " + resu[1] + " " + resu[2]);
-//				resu = new int[3];
-//			}
-//		}
-		for (int i = 1; i < 100; i++) {
+		for (int i = 1; i < 20000; i++) {
 			epsilon *= 0.99999;
 			qlearning1.setEpsilon(epsilon);
-			qlearning2.setEpsilon(epsilon);
-			
 			resu[arbitre.episode() + 1]++;
-			System.out.println(resu[0] + " " + resu[1] + " " + resu[2]);
-			resu = new int[3];
+			if (i % 100 == 0) {
+				System.out.println(i + " " + resu[0] + " " + resu[1] + " " + resu[2]);
+				resu = new int[3];
+			}
 		}
+
+//		for (int i = 1; i < 100; i++) {
+//			epsilon *= 0.99999;
+//			qlearning1.setEpsilon(epsilon);
+//
+//			resu[arbitre.episode() + 1]++;
+//			System.out.println(resu[0] + " " + resu[1] + " " + resu[2]);
+//			resu = new int[3];
+//		}
 	}
 	
 	private static void blackjack(Optional<Double> epsilonOptional, Optional<Double> alphaOptional, Optional<Double> gammaOptional, ISelector selector) {
@@ -82,10 +78,10 @@ public class App {
 		// arbitre.setVerbosity();
 		int resu[] = new int[3];
 
-		for (int i = 1; i <= 100; i++) {
-			qlearning1.setEpsilon(qlearning1.getEpsilon() * 0.99999);
+		for (int i = 1; i <= 1000; i++) {
+			qlearning1.setEpsilon(qlearning1.getEpsilon() * 0.79999);
 			resu[arbitre.episode() + 1]++;
-			if (i % 5 == 0) {
+			if (i % 1000 == 0) {
 				System.out.println(i + " " + resu[0] + " " + resu[1] + " " + resu[2]);
 				resu = new int[3];
 			}
